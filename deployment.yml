@@ -1,0 +1,30 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: media
+spec:
+  hostNetwork: true
+  restartPolicy: Never
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        kubernetes.io/hostname: media
+    spec:
+      containers:
+      - name: media
+        args:
+        - bash
+        - -c
+        - service
+        - apache
+        - start
+        image: <from media dockerfile>
+        ports:
+        - containerPort: 80  
+      - name: mysql
+        args:
+        -  sleep 10000h
+        image: <from mysql dockerfile>
+        ports:
+        - containerPort: 3306
